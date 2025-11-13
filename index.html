@@ -1,9 +1,352 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>First Web Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .text-display {
+            background-color: #f5f5f5;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #mainText {
+            word-wrap: break-word;
+            transition: all 0.3s ease;
+        }
+
+        .controls-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-group label {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        select, input[type="range"], input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        select:hover, input[type="range"]:hover {
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+        }
+
+        select:focus, input[type="range"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 12px rgba(102, 126, 234, 0.3);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/csvg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+            padding-right: 40px;
+        }
+
+        .arrow-button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 45px;
+            height: 45px;
+        }
+
+        .arrow-button:hover {
+            background-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .arrow-button:active {
+            transform: translateY(0);
+        }
+
+        input[type="range"] {
+            height: 6px;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: linear-gradient(to right, #667eea 0%, #667eea 50%, #ddd 50%, #ddd 100%);
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: #ddd;
+            height: 6px;
+            border-radius: 3px;
+            border: none;
+        }
+
+        .value-display {
+            background-color: #f0f0f0;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #667eea;
+            font-size: 13px;
+            min-width: 60px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .text-display {
+                padding: 30px 15px;
+                min-height: 100px;
+            }
+
+            .control-group label {
+                font-size: 13px;
+            }
+
+            select, input[type="range"], input[type="text"] {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .value-display {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            .text-display {
+                padding: 25px 10px;
+                margin-bottom: 20px;
+            }
+
+            #mainText {
+                font-size: inherit;
+            }
+
+            .input-wrapper {
+                gap: 8px;
+            }
+
+            .control-group label {
+                font-size: 12px;
+            }
+
+            select, input[type="range"], input[type="text"] {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-    Hello World!
+    <div class="container">
+        <div class="text-display">
+            <span id="mainText">Hello World!</span>
+        </div>
+
+        <div class="controls-section">
+            <!-- Rozmiar czcionki -->
+            <div class="control-group">
+                <label for="fontSizeSlider">Wielkość czcionki</label>
+                <div class="input-wrapper">
+                    <input type="range" id="fontSizeSlider" min="12" max="60" value="24">
+                    <div class="value-display"><span id="fontSizeValue">24</span>px</div>
+                </div>
+            </div>
+
+            <!-- Kolor czcionki -->
+            <div class="control-group">
+                <label for="colorSelect">Kolor czcionki</label>
+                <div class="input-wrapper">
+                    <select id="colorSelect">
+                        <option value="#000000">Czarny</option>
+                        <option value="#667eea">Niebieski</option>
+                        <option value="#764ba2">Fioletowy</option>
+                        <option value="#e74c3c">Czerwony</option>
+                        <option value="#27ae60">Zielony</option>
+                        <option value="#f39c12">Pomarańczowy</option>
+                        <option value="#8e44ad">Ciemnofioletowy</option>
+                        <option value="#16a085">Turkusowy</option>
+                    </select>
+                    <button class="arrow-button" id="colorArrow">▼</button>
+                </div>
+            </div>
+
+            <!-- Rodzaj czcionki -->
+            <div class="control-group">
+                <label for="fontFamilySelect">Rodzaj czcionki</label>
+                <div class="input-wrapper">
+                    <select id="fontFamilySelect">
+                        <option value="'Arial', sans-serif">Arial</option>
+                        <option value="'Georgia', serif">Georgia</option>
+                        <option value="'Times New Roman', serif">Times New Roman</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                        <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
+                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                        <option value="'Verdana', sans-serif">Verdana</option>
+                        <option value="'Impact', sans-serif">Impact</option>
+                    </select>
+                    <button class="arrow-button" id="fontArrow">▼</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mainText = document.getElementById('mainText');
+        const fontSizeSlider = document.getElementById('fontSizeSlider');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const colorSelect = document.getElementById('colorSelect');
+        const fontFamilySelect = document.getElementById('fontFamilySelect');
+
+        // Zmiana wielkości czcionki
+        fontSizeSlider.addEventListener('input', function() {
+            const size = this.value;
+            mainText.style.fontSize = size + 'px';
+            fontSizeValue.textContent = size;
+            // Aktualizacja paska progressu
+            const progress = (size / this.max) * 100;
+            this.style.background = `linear-gradient(to right, #667eea 0%, #667eea ${progress}%, #ddd ${progress}%, #ddd 100%)`;
+        });
+
+        // Inicjalizacja paska na starcie
+        fontSizeSlider.style.background = `linear-gradient(to right, #667eea 0%, #667eea 50%, #ddd 50%, #ddd 100%)`;
+
+        // Zmiana koloru czcionki
+        colorSelect.addEventListener('change', function() {
+            mainText.style.color = this.value;
+        });
+
+        // Zmiana rodzaju czcionki
+        fontFamilySelect.addEventListener('change', function() {
+            mainText.style.fontFamily = this.value;
+        });
+
+        // Przyciski strzałek - otwieranie selectów
+        document.getElementById('colorArrow').addEventListener('click', function(e) {
+            e.preventDefault();
+            colorSelect.focus();
+            colorSelect.click();
+        });
+
+        document.getElementById('fontArrow').addEventListener('click', function(e) {
+            e.preventDefault();
+            fontFamilySelect.focus();
+            fontFamilySelect.click();
+        });
+
+        // Obsługa klawiatury
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowUp') {
+                if (parseInt(fontSizeSlider.value) < fontSizeSlider.max) {
+                    fontSizeSlider.value = parseInt(fontSizeSlider.value) + 1;
+                    fontSizeSlider.dispatchEvent(new Event('input'));
+                }
+            } else if (e.key === 'ArrowDown') {
+                if (parseInt(fontSizeSlider.value) > fontSizeSlider.min) {
+                    fontSizeSlider.value = parseInt(fontSizeSlider.value) - 1;
+                    fontSizeSlider.dispatchEvent(new Event('input'));
+                }
+            }
+        });
+    </script>
 </body>
 </html>
